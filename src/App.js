@@ -6,6 +6,7 @@ import Word from "./components/Word";
 import Notification from "./components/Notification";
 import Popup from "./components/Popup";
 import {showNotification as show} from "./helpers/helpers"
+import HelpModal from "./components/help";
 import './App.css';
 
 const words = ['application', 'programming', 'interface', 'wizard'];
@@ -65,6 +66,7 @@ function App() {
       </div>
       <Popup correctLetters={correctLetters} wrongLetters={wrongLetters} selectedWord={selectedWord} setPlayable={setPlayable} playAgain={playAgain} />
       <Notification showNotification={showNotification} />
+      <HelpModal />
     </>
   );
 }
