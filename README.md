@@ -16,7 +16,7 @@ Follow these steps to install and run the app on your local machine:
 
 2. Navigate to the project directory:
 
-    cd your-react-app
+    cd hangman-game-main
 
 3. Install dependencies:
 

@@ -9,15 +9,37 @@ import {showNotification as show} from "./helpers/helpers"
 import HelpModal from "./components/help";
 import './App.css';
 
-const words = ['application', 'programming', 'interface', 'wizard'];
-let selectedWord = words[Math.floor(Math.random() * words.length)];
+// const words = [];
+// let selectedWord = words[Math.floor(Math.random() * words.length)];
 
 function App() {
   const [playable, setPlayable] = useState(true);
   const [correctLetters, setcorrectLetters] = useState([]);
   const [wrongLetters, setwrongLetters] = useState([]);
   const [showNotification, setShowNotification] = useState(false);
+  const [words, setwords] = useState([]);
+  const [selectedWord, setSelectedWord] = useState('');
 
+  useEffect(() => {
+    // fetch words from dictionary.txt
+    fetch('dictionary.txt')
+      .then(response => response.text())
+      .then(text => {
+        // split the text by newline character to get an array of words
+        const wordArray = text.split('\n').map(word => word.trim());
+        // set the words in state
+        setwords(wordArray);
+        // select random word from the fetched words
+        const randomIndex = Math.floor(Math.random() * wordArray.length);
+        setSelectedWord(wordArray[randomIndex]);
+        // enable the game once words are fetched
+        setPlayable(true);
+      })
+      .catch(error => {
+      console.log('Error fetching dictionary.txt', error)
+      });
+  }, []);
+  
   useEffect(() => {
     const handleKeydown = event => {
       const { key, keyCode } = event;
@@ -43,7 +65,7 @@ function App() {
     window.addEventListener('keydown', handleKeydown);
 
     return () => window.removeEventListener('keydown', handleKeydown);
-  }, [correctLetters, wrongLetters, playable]);
+  }, [correctLetters, wrongLetters, playable, selectedWord]);
 
   function playAgain() {
     setPlayable(true);
@@ -53,7 +75,7 @@ function App() {
     setwrongLetters([]);
 
     const random = Math.floor(Math.random() * words.length);
-    selectedWord = words[random];
+    setSelectedWord(words[random])
   }
 
   return (
